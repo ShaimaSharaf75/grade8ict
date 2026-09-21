@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 8 ICT Week 3: Intro to HTML - Interactive Worksheet</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .code-editor { font-family: 'Fira Code', monospace; }
+        
+        /* Print Styles for PDF Generation */
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white !important; color: black !important; }
+            .card-box { border: 1px solid #ccc !important; box-shadow: none !important; page-break-inside: avoid; }
+        }
+
+        .timer-warning {
+            animation: pulse-red 1s infinite alternate;
+        }
+
+        @keyframes pulse-red {
+            0% { background-color: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
+            100% { background-color: rgba(239, 68, 68, 0.3); border-color: #dc2626; color: #b91c1c; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen pb-16">
+
+    <!-- Header Banner -->
+    <header class="bg-gradient-to-r from-emerald-800 via-teal-700 to-cyan-800 text-white shadow-lg sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white p-2 rounded-xl shadow-md">
+                        <i class="fa-solid font-bold text-teal-700 text-2xl fa-code"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="bg-emerald-500/30 text-emerald-100 text-xs px-2.5 py-0.5 rounded-full font-semibold border border-emerald-400/30">DMES ICT AY 2026-2027</span>
+                            <span class="text-xs text-teal-200">Grade 8 • Week 3</span>
+                        </div>
+                        <h1 class="text-xl font-bold tracking-tight">Lesson 2: Intro to HTML & Web Lab</h1>
+                    </div>
+                </div>
+
+                <!-- Global Score & Tools Bar -->
+                <div class="flex items-center space-x-3 bg-teal-900/60 p-2 rounded-xl border border-teal-500/30">
+                    <div class="text-center px-3 border-r border-teal-600/50">
+                        <div class="text-xs text-teal-200 uppercase tracking-wider font-medium">Overall Score</div>
+                        <div class="text-xl font-extrabold text-amber-300" id="global-score-display">0 / 100</div>
+                    </div>
+                    <button onclick="toggleCheatSheet()" class="px-3 py-1.5 bg-teal-600 hover:bg-teal-500 text-white rounded-lg text-xs font-medium flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-file-code"></i> Tag Cheat Sheet
+                    </button>
+                    <button onclick="toggleTTS()" id="tts-btn" class="px-3 py-1.5 bg-teal-700 hover:bg-teal-600 text-teal-100 rounded-lg text-xs font-medium flex items-center gap-1.5 transition">
+                        <i class="fa-solid fa-volume-high"></i> Read Text
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+
+        <!-- Student Information Card -->
+        <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-8 card-box">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-id-card text-teal-600"></i> Student Profile & Details
+                </h2>
+                <span class="text-xs bg-amber-100 text-amber-800 px-2.5 py-1 rounded-md font-medium">Required for submission</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Full Name</label>
+                    <input type="text" id="student-name" placeholder="e.g. Fatima Al Mansoori" oninput="updateProfileData()" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Student ID</label>
+                    <input type="text" id="student-id" placeholder="e.g. DMES-8092" oninput="updateProfileData()" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Class / Section</label>
+                    <select id="student-class" onchange="updateProfileData()" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition text-sm bg-white">
+                        <option value="">Select Section</option>
+                        <option value="8A">Grade 8 - Section A</option>
+                        <option value="8B">Grade 8 - Section B</option>
+                        <option value="8C">Grade 8 - Section C</option>
+                        <option value="8F">Grade 8 - Section F</option>
+                        <option value="8G">Grade 8 - Section G</option>
+                        <option value="8H">Grade 8 - Section H</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Pair Partner (Optional)</label>
+                    <input type="text" id="partner-name" placeholder="Navigator Name" oninput="updateProfileData()" class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition text-sm">
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: DO NOW & VOCABULARY DEBATE -->
+        <section id="section-1" class="bg-white rounded-2xl shadow-sm border border-slate-200 mb-8 overflow-hidden card-box">
+            <div class="bg-slate-800 text-white px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-teal-500 text-white font-bold w-8 h-8 rounded-lg flex items-center justify-center text-sm shadow">1</span>
+                    <div>
+                        <h3 class="font-bold text-lg">Do Now! Vocabulary & Debate Repair</h3>
+                        <p class="text-xs text-slate-300">Target Time: 4 Minutes • Points: 20 pts</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div id="timer-sec-1" class="bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl font-mono text-amber-400 text-sm font-bold flex items-center gap-2">
+                        <i class="fa-regular fa-clock"></i> <span id="time-sec-1">04:00</span>
+                    </div>
+                    <button onclick="startSectionTimer('sec-1', 240)" id="start-btn-sec-1" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold transition">
+                        Start Timer
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Part 1: Matching -->
+                <div>
+                    <h4 class="font-semibold text-slate-800 mb-2 flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-list-check text-teal-600"></i> Part 1: Match the Web Development Debate Terms
+                    </h4>
+                    <p class="text-xs text-slate-500 mb-4">Select the correct definition matching letter for each target word.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-3">
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                                <span class="font-semibold text-sm text-slate-700">1. Position</span>
+                                <select id="match-1" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none">
+                                    <option value="">Select Matching Letter...</option>
+                                    <option value="A">A. Core disagreement or point of friction in layout</option>
+                                    <option value="B">B. Evidence, reasoning, or HTML code used to prove design choice</option>
+                                    <option value="C">C. An individual's stance or opinion on page structure</option>
+                                </select>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                                <span class="font-semibold text-sm text-slate-700">2. Contention</span>
+                                <select id="match-2" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none">
+                                    <option value="">Select Matching Letter...</option>
+                                    <option value="A">A. Core disagreement or point of friction in layout</option>
+                                    <option value="B">B. Evidence, reasoning, or HTML code used to prove design choice</option>
+                                    <option value="C">C. An individual's stance or opinion on page structure</option>
+                                </select>
+                            </div>
+                            <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                                <span class="font-semibold text-sm text-slate-700">3. Argument</span>
+                                <select id="match-3" class="px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 outline-none">
+                                    <option value="">Select Matching Letter...</option>
+                                    <option value="A">A. Core disagreement or point of friction in layout</option>
+                                    <option value="B">B. Evidence, reasoning, or HTML code used to prove design choice</option>
+                                    <option value="C">C. An individual's stance or opinion on page structure</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Definitions Reference Panel -->
+                        <div class="bg-amber-50/60 rounded-xl p-4 border border-amber-200/80 text-xs text-amber-900 space-y-2">
+                            <p class="font-bold border-b border-amber-200 pb-1 text-amber-950">Definition Key Choices:</p>
+                            <p><strong>[ A ]</strong> The core disagreement or main point of friction when designing a website layout.</p>
+                            <p><strong>[ B ]</strong> The evidence, reasoning, or HTML code used to prove why a design choice works best.</p>
+                            <p><strong>[ C ]</strong> An individual's stance or opinion on how a web page should be structured.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 2: Speed Sentence Repair -->
+                <div class="pt-4 border-t border-slate-100">
+                    <h4 class="font-semibold text-slate-800 mb-2 flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-wrench text-teal-600"></i> Part 2: Speed Sentence Repair (Interactive)
+                    </h4>
+                    <p class="text-xs text-slate-500 mb-3">Choose the correct words to repair the debate statement:</p>
+                    
+                    <div class="p-4 bg-slate-100 rounded-xl text-slate-800 leading-relaxed text-sm border border-slate-200">
+                        "When designing our group site, my 
+                        <select id="sentence-1" class="bg-white px-2 py-1 border border-slate-300 rounded font-semibold text-teal-700 outline-none mx-1">
+                            <option value="">[ Choose ]</option>
+                            <option value="Position">Position</option>
+                            <option value="Contention">Contention</option>
+                            <option value="Argument">Argument</option>
+                        </select> 
+                        is that we must use clean HTML paragraph tags instead of large blocks of unformatted text. The main 
+                        <select id="sentence-2" class="bg-white px-2 py-1 border border-slate-300 rounded font-semibold text-teal-700 outline-none mx-1">
+                            <option value="">[ Choose ]</option>
+                            <option value="Position">Position</option>
+                            <option value="Contention">Contention</option>
+                            <option value="Argument">Argument</option>
+                        </select> 
+                        between our team members is that raw text looks fine to some, but my 
+                        <select id="sentence-3" class="bg-white px-2 py-1 border border-slate-300 rounded font-semibold text-teal-700 outline-none mx-1">
+                            <option value="">[ Choose ]</option>
+                            <option value="Position">Position</option>
+                            <option value="Contention">Contention</option>
+                            <option value="Argument">Argument</option>
+                        </select> 
+                        is backed by the fact that browsers require structural tags to render spacing properly!"
+                    </div>
+                </div>
+
+                <!-- Check & Feedback Bar -->
+                <div class="flex items-center justify-between pt-2">
+                    <button onclick="checkSection1()" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-xl shadow-sm text-sm flex items-center gap-2 transition">
+                        <i class="fa-solid fa-circle-check"></i> Check Section 1 Answers
+                    </button>
+                    <div id="feedback-sec-1" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: TEACH & GUIDED EXPLORATION -->
+        <section id="section-2" class="bg-white rounded-2xl shadow-sm border border-slate-200 mb-8 overflow-hidden card-box">
+            <div class="bg-slate-800 text-white px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-teal-500 text-white font-bold w-8 h-8 rounded-lg flex items-center justify-center text-sm shadow">2</span>
+                    <div>
+                        <h3 class="font-bold text-lg">Teach: Intro to HTML & Web Lab Tools</h3>
+                        <p class="text-xs text-slate-300">Target Time: 10 Minutes • Points: 25 pts</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div id="timer-sec-2" class="bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl font-mono text-amber-400 text-sm font-bold flex items-center gap-2">
+                        <i class="fa-regular fa-clock"></i> <span id="time-sec-2">10:00</span>
+                    </div>
+                    <button onclick="startSectionTimer('sec-2', 600)" id="start-btn-sec-2" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold transition">
+                        Start Timer
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Embedded Video Player -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                    <div>
+                        <h4 class="font-semibold text-slate-800 mb-2 flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-play-circle text-rose-600"></i> Video Tutorial: Intro to Web Lab & HTML
+                        </h4>
+                        <div class="relative w-full aspect-video rounded-xl overflow-hidden shadow-md bg-black">
+                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/Hjl6gbg9kmk" title="Intro to Web Lab" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Concept Quiz based on Video & Presentation -->
+                    <div class="space-y-4">
+                        <h4 class="font-semibold text-slate-800 flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-lightbulb text-amber-500"></i> Key Concept Questions
+                        </h4>
+
+                        <!-- Q1 -->
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <p class="text-xs font-semibold text-slate-700 mb-2">1. What is the distinction between Website Content and Website Structure?</p>
+                            <div class="space-y-1.5 text-xs">
+                                <label class="flex items-center gap-2 p-1.5 bg-white rounded border border-slate-200 cursor-pointer hover:bg-teal-50">
+                                    <input type="radio" name="q1" value="A"> Content is code; Structure is video/audio files
+                                </label>
+                                <label class="flex items-center gap-2 p-1.5 bg-white rounded border border-slate-200 cursor-pointer hover:bg-teal-50">
+                                    <input type="radio" name="q1" value="B"> Content is text/images; Structure is how content is organized using HTML tags
+                                </label>
+                                <label class="flex items-center gap-2 p-1.5 bg-white rounded border border-slate-200 cursor-pointer hover:bg-teal-50">
+                                    <input type="radio" name="q1" value="C"> Content and Structure are identical concepts in Web Lab
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <p class="text-xs font-semibold text-slate-700 mb-2">2. What happens in Web Lab if you type text on multiple lines WITHOUT using HTML tags?</p>
+                            <div class="space-y-1.5 text-xs">
+                                <label class="flex items-center gap-2 p-1.5 bg-white rounded border border-slate-200 cursor-pointer hover:bg-teal-50">
+                                    <input type="radio" name="q2" value="A"> It automatically converts into separate paragraphs
+                                </label>
+                                <label class="flex items-center gap-2 p-1.5 bg-white rounded border border-slate-200 cursor-pointer hover:bg-teal-50">
+                                    <input type="radio" name="q2" value="B"> The browser renders all the text continuously on a single line
+                                </label>
+                                <label class="flex items-center gap-2 p-1.5 bg-white rounded border border-slate-200 cursor-pointer hover:bg-teal-50">
+                                    <input type="radio" name="q2" value="C"> It triggers a syntax error and stops rendering
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q3 -->
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                            <p class="text-xs font-semibold text-slate-700 mb-2">3. What is the role of the Inspector Tool in Code Studio Web Lab?</p>
+                            <div class="space-y-1.5 text-xs">
+                                <label class="flex items-center gap-2 p-1.5 bg-white rounded border border-slate-200 cursor-pointer hover:bg-teal-50">
+                                    <input type="radio" name="q3" value="A"> To check your spelling automatically
+                                </label>
+                                <label class="flex items-center gap-2 p-1.5 bg-white rounded border border-slate-200 cursor-pointer hover:bg-teal-50">
+                                    <input type="radio" name="q3" value="B"> To click on preview elements and see the underlying HTML code that creates them
+                                </label>
+                                <label class="flex items-center gap-2 p-1.5 bg-white rounded border border-slate-200 cursor-pointer hover:bg-teal-50">
+                                    <input type="radio" name="q3" value="C"> To switch drivers in Pair Programming mode
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Check & Feedback Bar -->
+                <div class="flex items-center justify-between pt-2">
+                    <button onclick="checkSection2()" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-xl shadow-sm text-sm flex items-center gap-2 transition">
+                        <i class="fa-solid fa-circle-check"></i> Check Section 2 Answers
+                    </button>
+                    <div id="feedback-sec-2" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: INTERACTIVE WEB LAB & APPLICATION -->
+        <section id="section-3" class="bg-white rounded-2xl shadow-sm border border-slate-200 mb-8 overflow-hidden card-box">
+            <div class="bg-slate-800 text-white px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-teal-500 text-white font-bold w-8 h-8 rounded-lg flex items-center justify-center text-sm shadow">3</span>
+                    <div>
+                        <h3 class="font-bold text-lg">You Do: Interactive Web Lab & Coding Tasks</h3>
+                        <p class="text-xs text-slate-300">Target Time: 15 Minutes • Points: 35 pts</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div id="timer-sec-3" class="bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl font-mono text-amber-400 text-sm font-bold flex items-center gap-2">
+                        <i class="fa-regular fa-clock"></i> <span id="time-sec-3">15:00</span>
+                    </div>
+                    <button onclick="startSectionTimer('sec-3', 900)" id="start-btn-sec-3" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold transition">
+                        Start Timer
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Task Level Selector Tabs -->
+                <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-3">
+                    <button onclick="switchLabTab('level3')" id="tab-level3" class="lab-tab-btn px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold shadow-sm transition">
+                        Skill Building (Level 3-5)
+                    </button>
+                    <button onclick="switchLabTab('level7')" id="tab-level7" class="lab-tab-btn px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-xs font-bold transition">
+                        Level 7 Assessment
+                    </button>
+                    <button onclick="switchLabTab('level9')" id="tab-level9" class="lab-tab-btn px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl text-xs font-bold transition">
+                        Level 9 Challenge Debugging
+                    </button>
+                </div>
+
+                <!-- Tab Instructions Panel -->
+                <div id="lab-instruction-box" class="p-4 bg-teal-50 border border-teal-200 rounded-xl text-xs text-teal-900 space-y-1">
+                    <p class="font-bold text-sm text-teal-950 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info"></i> Task Instructions:
+                    </p>
+                    <p id="lab-instruction-text">Construct properly formatted HTML paragraphs using opening <code>&lt;p&gt;</code> and closing <code>&lt;/p&gt;</code> tags. Write your name, favorite color, and favorite animal in separate paragraph tags.</p>
+                </div>
+
+                <!-- Embedded Interactive Web Lab Sandbox -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-inner">
+                    
+                    <!-- Left: Code Editor -->
+                    <div class="flex flex-col h-96">
+                        <div class="bg-slate-800 text-slate-300 px-4 py-2 rounded-t-xl text-xs font-mono flex items-center justify-between border-b border-slate-700">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-code text-teal-400"></i> index.html</span>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="resetLabCode()" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-2 py-1 rounded transition">
+                                    <i class="fa-solid fa-rotate-left"></i> Reset Code
+                                </button>
+                                <button onclick="runWebLabCode()" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1 rounded font-bold transition flex items-center gap-1">
+                                    <i class="fa-solid fa-play"></i> Run & Preview
+                                </button>
+                            </div>
+                        </div>
+                        <textarea id="weblab-editor" oninput="runWebLabCode()" class="code-editor flex-1 w-full bg-slate-950 text-emerald-400 p-4 font-mono text-sm border-none outline-none resize-none rounded-b-xl leading-relaxed" spellcheck="false">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;My First Web Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;p&gt;My name is Alex.&lt;/p&gt;
+  &lt;p&gt;My favorite color is Blue.&lt;/p&gt;
+  &lt;p&gt;My favorite animal is an Axolotl.&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
+                    </div>
+
+                    <!-- Right: Live Browser Preview Panel -->
+                    <div class="flex flex-col h-96 bg-white rounded-xl overflow-hidden border border-slate-300 shadow">
+                        <div class="bg-slate-100 px-4 py-2 border-b border-slate-200 flex items-center justify-between text-xs text-slate-600 font-semibold">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-globe text-blue-500"></i> Browser Live Preview</span>
+                            <span class="text-slate-400 text-[10px]">Web Lab Simulator</span>
+                        </div>
+                        <iframe id="weblab-preview" class="w-full flex-1 bg-white p-2"></iframe>
+                    </div>
+                </div>
+
+                <!-- Web Lab Evaluation & Check -->
+                <div class="flex items-center justify-between pt-2">
+                    <button onclick="checkSection3()" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-xl shadow-sm text-sm flex items-center gap-2 transition">
+                        <i class="fa-solid fa-circle-check"></i> Evaluate Code & Submit Task
+                    </button>
+                    <div id="feedback-sec-3" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: PROGRESS CHECK & CLOSURE -->
+        <section id="section-4" class="bg-white rounded-2xl shadow-sm border border-slate-200 mb-8 overflow-hidden card-box">
+            <div class="bg-slate-800 text-white px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center space-x-3">
+                    <span class="bg-teal-500 text-white font-bold w-8 h-8 rounded-lg flex items-center justify-center text-sm shadow">4</span>
+                    <div>
+                        <h3 class="font-bold text-lg">Exit Ticket & Reflection Journal</h3>
+                        <p class="text-xs text-slate-300">Target Time: 5 Minutes • Points: 20 pts</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <div id="timer-sec-4" class="bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-xl font-mono text-amber-400 text-sm font-bold flex items-center gap-2">
+                        <i class="fa-regular fa-clock"></i> <span id="time-sec-4">05:00</span>
+                    </div>
+                    <button onclick="startSectionTimer('sec-4', 300)" id="start-btn-sec-4" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold transition">
+                        Start Timer
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Formative Exit Ticket Question -->
+                <div>
+                    <h4 class="font-semibold text-slate-800 mb-2 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-teal-600"></i> Formative Tag Syntax Check
+                    </h4>
+                    <p class="text-xs text-slate-500 mb-3">Which of the following represents a CORRECT HTML paragraph element?</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <label class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center gap-3 cursor-pointer hover:bg-teal-50 transition">
+                            <input type="radio" name="exit-q" value="A">
+                            <code class="text-xs font-mono bg-white px-2 py-1 rounded border">&lt;p&gt;Hello World&lt;p&gt;</code>
+                        </label>
+                        <label class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center gap-3 cursor-pointer hover:bg-teal-50 transition">
+                            <input type="radio" name="exit-q" value="B">
+                            <code class="text-xs font-mono bg-white px-2 py-1 rounded border">&lt;p&gt;Hello World&lt;/p&gt;</code>
+                        </label>
+                        <label class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center gap-3 cursor-pointer hover:bg-teal-50 transition">
+                            <input type="radio" name="exit-q" value="C">
+                            <code class="text-xs font-mono bg-white px-2 py-1 rounded border">&lt;/p&gt;Hello World&lt;p&gt;</code>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Journal Prompt -->
+                <div class="pt-4 border-t border-slate-100">
+                    <h4 class="font-semibold text-slate-800 mb-2 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-pen-to-square text-teal-600"></i> Reflection Prompt (DMES Journal Routine)
+                    </h4>
+                    <p class="text-xs text-slate-600 mb-2 italic">
+                        "In your own words, how does HTML solve the problem of telling a computer what content goes on a web page and how it should be organized?"
+                    </p>
+                    <textarea id="journal-reflection" rows="4" placeholder="Write your detailed explanation here (Minimum 2 sentences)..." class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-teal-500 outline-none transition"></textarea>
+                </div>
+
+                <!-- Check & Feedback Bar -->
+                <div class="flex items-center justify-between pt-2">
+                    <button onclick="checkSection4()" class="px-5 py-2 bg-teal-600 hover:bg-teal-700 text-white font-medium rounded-xl shadow-sm text-sm flex items-center gap-2 transition">
+                        <i class="fa-solid fa-circle-check"></i> Complete Exit Ticket
+                    </button>
+                    <div id="feedback-sec-4" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL SUBMISSION & DOWNLOAD PANEL -->
+        <section class="bg-gradient-to-br from-slate-900 to-teal-950 text-white rounded-2xl p-8 shadow-xl mb-12">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                    <h3 class="text-2xl font-extrabold flex items-center gap-3 text-amber-400">
+                        <i class="fa-solid fa-trophy"></i> Lesson Completion & Submission
+                    </h3>
+                    <p class="text-slate-300 text-sm mt-1">Verify all sections are checked before generating your Google Classroom submission!</p>
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="window.print()" class="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl shadow text-sm flex items-center gap-2 transition">
+                        <i class="fa-solid fa-print"></i> Save as PDF / Print
+                    </button>
+                    <button onclick="generateSubmissionCode()" class="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-extrabold rounded-xl shadow-lg text-sm flex items-center gap-2 transition">
+                        <i class="fa-solid fa-paper-plane"></i> Copy Google Classroom Submission
+                    </button>
+                </div>
+            </div>
+
+            <!-- Submission Summary Modal / Output Box -->
+            <div id="submission-box" class="hidden mt-6 p-4 bg-slate-800/90 rounded-xl border border-teal-500/30 text-xs font-mono space-y-2">
+                <div class="flex items-center justify-between text-teal-300 font-bold">
+                    <span>Google Classroom Submission Summary Data</span>
+                    <span class="text-[10px] bg-teal-950 px-2 py-0.5 rounded border border-teal-800 text-teal-400">Copied to Clipboard!</span>
+                </div>
+                <textarea id="submission-text" rows="5" readonly class="w-full bg-slate-950 p-3 rounded border border-slate-700 text-amber-300 font-mono text-xs outline-none select-all"></textarea>
+                <p class="text-slate-400 text-[11px] italic">Paste this code into your Google Classroom assignment comment or submit option.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CHEAT SHEET MODAL -->
+    <div id="cheat-sheet-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 relative max-h-[85vh] overflow-y-auto">
+            <button onclick="toggleCheatSheet()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-book-bookmark text-teal-600"></i> HTML Tags Quick Reference Sheet
+            </h3>
+            
+            <div class="space-y-4 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <p class="font-bold text-teal-700 text-sm font-mono">&lt;!DOCTYPE html&gt;</p>
+                    <p class="text-slate-600 mt-1">Tells the browser that this document is written in HTML5.</p>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <p class="font-bold text-teal-700 text-sm font-mono">&lt;html&gt; ... &lt;/html&gt;</p>
+                    <p class="text-slate-600 mt-1">The root container tag for all content on the web page.</p>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <p class="font-bold text-teal-700 text-sm font-mono">&lt;head&gt; ... &lt;/head&gt;</p>
+                    <p class="text-slate-600 mt-1">Contains metadata, page title, and information for browsers (not displayed directly on page body).</p>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <p class="font-bold text-teal-700 text-sm font-mono">&lt;body&gt; ... &lt;/body&gt;</p>
+                    <p class="text-slate-600 mt-1">Contains all visible website content like text, images, lists, and links.</p>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                    <p class="font-bold text-teal-700 text-sm font-mono">&lt;p&gt; ... &lt;/p&gt;</p>
+                    <p class="text-slate-600 mt-1">Defines a paragraph. Automatically creates spacing above and below text.</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-right">
+                <button onclick="toggleCheatSheet()" class="px-4 py-2 bg-slate-800 text-white font-bold rounded-lg text-xs">
+                    Close Reference
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Score Tracking State
+        const scores = {
+            sec1: 0,
+            sec2: 0,
+            sec3: 0,
+            sec4: 0
+        };
+
+        const maxScores = {
+            sec1: 20,
+            sec2: 25,
+            sec3: 35,
+            sec4: 20
+        };
+
+        // Timers state
+        const timers = {};
+
+        // Student Data
+        let studentProfile = {
+            name: '',
+            id: '',
+            section: '',
+            partner: ''
+        };
+
+        // Audio Alert Synthesizer via Web Audio API
+        function playSoundTone(freq = 520, type = 'sine', duration = 0.3) {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.log("Audio play blocked or unsupported");
+            }
+        }
+
+        function playTimeWarningTone() {
+            playSoundTone(880, 'square', 0.15);
+            setTimeout(() => playSoundTone(440, 'square', 0.25), 200);
+        }
+
+        // Section Timer Logic
+        function startSectionTimer(sectionId, durationSeconds) {
+            if (timers[sectionId]) {
+                clearInterval(timers[sectionId].interval);
+            }
+
+            const displayEl = document.getElementById(`time-${sectionId}`);
+            const timerContainer = document.getElementById(`timer-${sectionId}`);
+            const startBtn = document.getElementById(`start-btn-${sectionId}`);
+
+            startBtn.innerText = "Restart Timer";
+            startBtn.classList.replace('bg-emerald-600', 'bg-slate-700');
+
+            let timeLeft = durationSeconds;
+
+            timers[sectionId] = {
+                interval: setInterval(() => {
+                    timeLeft--;
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    displayEl.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                    if (timeLeft === 30) {
+                        timerContainer.classList.add('timer-warning');
+                        playTimeWarningTone();
+                    }
+
+                    if (timeLeft <= 0) {
+                        clearInterval(timers[sectionId].interval);
+                        displayEl.innerText = "00:00 - TIME UP!";
+                        timerContainer.classList.add('timer-warning');
+                        playTimeWarningTone();
+                    }
+                }, 1000)
+            };
+        }
+
+        // Update Student Profile
+        function updateProfileData() {
+            studentProfile.name = document.getElementById('student-name').value;
+            studentProfile.id = document.getElementById('student-id').value;
+            studentProfile.section = document.getElementById('student-class').value;
+            studentProfile.partner = document.getElementById('partner-name').value;
+        }
+
+        // Global Score Calculation
+        function updateTotalScore() {
+            const total = scores.sec1 + scores.sec2 + scores.sec3 + scores.sec4;
+            document.getElementById('global-score-display').innerText = `${total} / 100`;
+        }
+
+        // SECTION 1 CHECK: Vocabulary & Speed Sentence
+        function checkSection1() {
+            let score = 0;
+            // Part 1 Matching (1: C, 2: A, 3: B)
+            const m1 = document.getElementById('match-1').value;
+            const m2 = document.getElementById('match-2').value;
+            const m3 = document.getElementById('match-3').value;
+
+            if (m1 === 'C') score += 3;
+            if (m2 === 'A') score += 3;
+            if (m3 === 'B') score += 4;
+
+            // Part 2 Speed Sentence (Position -> Contention -> Argument)
+            const s1 = document.getElementById('sentence-1').value;
+            const s2 = document.getElementById('sentence-2').value;
+            const s3 = document.getElementById('sentence-3').value;
+
+            if (s1 === 'Position') score += 3;
+            if (s2 === 'Contention') score += 3;
+            if (s3 === 'Argument') score += 4;
+
+            scores.sec1 = score;
+            updateTotalScore();
+
+            const fb = document.getElementById('feedback-sec-1');
+            if (score === 20) {
+                fb.className = "text-sm font-semibold text-emerald-600";
+                fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Perfect! 20/20 pts.`;
+                playSoundTone(600, 'sine', 0.2);
+            } else {
+                fb.className = "text-sm font-semibold text-amber-600";
+                fb.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Score: ${score}/20 pts. Hint: Position = opinion, Contention = debate friction, Argument = code evidence!`;
+                playSoundTone(300, 'sine', 0.2);
+            }
+        }
+
+        // SECTION 2 CHECK: Teach Concept Quiz
+        function checkSection2() {
+            let score = 0;
+            const q1 = document.querySelector('input[name="q1"]:checked')?.value;
+            const q2 = document.querySelector('input[name="q2"]:checked')?.value;
+            const q3 = document.querySelector('input[name="q3"]:checked')?.value;
+
+            if (q1 === 'B') score += 8;
+            if (q2 === 'B') score += 8;
+            if (q3 === 'B') score += 9;
+
+            scores.sec2 = score;
+            updateTotalScore();
+
+            const fb = document.getElementById('feedback-sec-2');
+            if (score === 25) {
+                fb.className = "text-sm font-semibold text-emerald-600";
+                fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Excellent! 25/25 pts.`;
+                playSoundTone(600, 'sine', 0.2);
+            } else {
+                fb.className = "text-sm font-semibold text-amber-600";
+                fb.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Score: ${score}/25 pts. Review how browsers render plain unformatted text!`;
+                playSoundTone(300, 'sine', 0.2);
+            }
+        }
+
+        // Web Lab Interactive Tabs
+        const labPresets = {
+            level3: {
+                instruction: "Skill Building (Levels 3-5): Write 3 distinct lines using opening <p> and closing </p> paragraph tags.",
+                code: `<!DOCTYPE html>\n<html>\n<head>\n  <title>My First Web Page</title>\n</head>\n<body>\n\n  <p>My name is Alex.</p>\n  <p>My favorite color is Blue.</p>\n  <p>My favorite animal is an Axolotl.</p>\n\n</body>\n</html>`
+            },
+            level7: {
+                instruction: "Assessment Level 7: Create a structured webpage with a main topic and at least 3 formatted paragraphs with proper <p> and </p> tags.",
+                code: `<!DOCTYPE html>\n<html>\n<head>\n  <title>Assessment Level 7</title>\n</head>\n<body>\n\n  <p>Welcome to my Dubai Modern Education School page!</p>\n  <p>HTML helps organize website text clearly for web browsers.</p>\n  <p>Using closing tags ensures that text blocks break properly.</p>\n\n</body>\n</html>`
+            },
+            level9: {
+                instruction: "Challenge Debugging (Level 9): Fix the spelling mistakes and out-of-order tags (e.g. change <q> to <p>).",
+                code: `<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body>\n\n  <q> These are paragraph tags! </p>\n\n</body>\n</html>`
+            }
+        };
+
+        let currentLabTab = 'level3';
+
+        function switchLabTab(tabKey) {
+            currentLabTab = tabKey;
+            document.querySelectorAll('.lab-tab-btn').forEach(btn => {
+                btn.classList.replace('bg-teal-600', 'bg-slate-100');
+                btn.classList.replace('text-white', 'text-slate-700');
+            });
+
+            const activeBtn = document.getElementById(`tab-${tabKey}`);
+            activeBtn.classList.replace('bg-slate-100', 'bg-teal-600');
+            activeBtn.classList.replace('text-slate-700', 'text-white');
+
+            document.getElementById('lab-instruction-text').innerText = labPresets[tabKey].instruction;
+            document.getElementById('weblab-editor').value = labPresets[tabKey].code;
+            runWebLabCode();
+        }
+
+        function runWebLabCode() {
+            const code = document.getElementById('weblab-editor').value;
+            const iframe = document.getElementById('weblab-preview');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(code);
+            iframeDoc.close();
+        }
+
+        function resetLabCode() {
+            document.getElementById('weblab-editor').value = labPresets[currentLabTab].code;
+            runWebLabCode();
+        }
+
+        function checkSection3() {
+            const code = document.getElementById('weblab-editor').value.toLowerCase();
+            let score = 0;
+
+            // Automated HTML Code Validation Engine
+            const hasOpeningP = (code.match(/<p>/g) || []).length;
+            const hasClosingP = (code.match(/<\/p>/g) || []).length;
+            const hasDoctype = code.includes('<!doctype html>');
+
+            if (hasOpeningP >= 3 && hasClosingP >= 3) {
+                score += 25;
+            } else if (hasOpeningP >= 1 && hasClosingP >= 1) {
+                score += 15;
+            }
+
+            if (hasDoctype) score += 10;
+
+            scores.sec3 = score;
+            updateTotalScore();
+
+            const fb = document.getElementById('feedback-sec-3');
+            if (score === 35) {
+                fb.className = "text-sm font-semibold text-emerald-600";
+                fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Outstanding Code! 35/35 pts. All tags closed properly.`;
+                playSoundTone(600, 'sine', 0.2);
+            } else {
+                fb.className = "text-sm font-semibold text-amber-600";
+                fb.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Score: ${score}/35 pts. Make sure you have at least 3 paired <p>...</p> tags and <!DOCTYPE html>!`;
+                playSoundTone(300, 'sine', 0.2);
+            }
+        }
+
+        // SECTION 4 CHECK: Exit Ticket & Reflection
+        function checkSection4() {
+            let score = 0;
+            const exitChoice = document.querySelector('input[name="exit-q"]:checked')?.value;
+            const reflectionText = document.getElementById('journal-reflection').value.trim();
+
+            if (exitChoice === 'B') score += 10;
+            if (reflectionText.length > 25) score += 10;
+
+            scores.sec4 = score;
+            updateTotalScore();
+
+            const fb = document.getElementById('feedback-sec-4');
+            if (score === 20) {
+                fb.className = "text-sm font-semibold text-emerald-600";
+                fb.innerHTML = `<i class="fa-solid fa-circle-check"></i> Great Reflection! 20/20 pts.`;
+                playSoundTone(600, 'sine', 0.2);
+            } else {
+                fb.className = "text-sm font-semibold text-amber-600";
+                fb.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Score: ${score}/20 pts. Ensure correct tag selection and complete journal reflection text!`;
+                playSoundTone(300, 'sine', 0.2);
+            }
+        }
+
+        // Toggle Reference Sheet Modal
+        function toggleCheatSheet() {
+            const modal = document.getElementById('cheat-sheet-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Text To Speech Inclusion Tool
+        function toggleTTS() {
+            if ('speechSynthesis' in window) {
+                if (window.speechSynthesis.speaking) {
+                    window.speechSynthesis.cancel();
+                    document.getElementById('tts-btn').classList.replace('bg-amber-600', 'bg-teal-700');
+                } else {
+                    const text = "Grade 8 ICT Lesson 2: Intro to HTML. In this lesson, you learn how HTML tags separate web content from page structure to communicate layout instructions to a computer browser.";
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    window.speechSynthesis.speak(utterance);
+                    document.getElementById('tts-btn').classList.replace('bg-teal-700', 'bg-amber-600');
+                }
+            } else {
+                alert("Text-to-speech is not supported in this browser.");
+            }
+        }
+
+        // Generate Submission Code for Google Classroom
+        function generateSubmissionCode() {
+            updateProfileData();
+            const totalScore = scores.sec1 + scores.sec2 + scores.sec3 + scores.sec4;
+            
+            const summaryData = {
+                school: "Dubai Modern Education School (DMES)",
+                lesson: "Grade 8 Week 3 Lesson 2 - Intro to HTML",
+                studentName: studentProfile.name || "N/A",
+                studentID: studentProfile.id || "N/A",
+                section: studentProfile.section || "N/A",
+                pairPartner: studentProfile.partner || "None",
+                scores: {
+                    doNow: `${scores.sec1}/20`,
+                    teachQuiz: `${scores.sec2}/25`,
+                    webLabCode: `${scores.sec3}/35`,
+                    exitTicket: `${scores.sec4}/20`,
+                    overallTotal: `${totalScore}/100`
+                },
+                journalResponse: document.getElementById('journal-reflection').value,
+                submittedAt: new Date().toLocaleString()
+            };
+
+            const jsonStr = JSON.stringify(summaryData, null, 2);
+            const submissionBox = document.getElementById('submission-box');
+            const submissionText = document.getElementById('submission-text');
+
+            submissionText.value = jsonStr;
+            submissionBox.classList.remove('hidden');
+
+            // Clipboard Copy
+            document.execCommand('copy');
+            playSoundTone(800, 'sine', 0.2);
+        }
+
+        // Initialize Live Preview on Load
+        window.onload = function() {
+            runWebLabCode();
+        };
+    </script>
+</body>
+</html>
